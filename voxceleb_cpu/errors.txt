@@ -1,0 +1,60 @@
+Before activating pytorch environment, start a bash shell by typing bash
+    bash
+Call proper Conda environment
+    conda activate pytorch_latest_p36
+Error: no library named soundfile
+    pip install soundfile
+Error: sndfile library not found
+    conda install -y -c conda-forge librosa
+Error: no module named 'torchaudio'
+    pip install torchaudio
+Error: torch.cuda.amp
+    pytorch = 1.4. Updated to 1.7.1
+    
+-------- 
+#To login to ECR
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 763104351884.dkr.ecr.us-east-1.amazonaws.com
+WARNING! Your password will be stored unencrypted in /home/ec2-user/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
+------
+docker build -t pytorch-training .
+docker image ls
+
+-----
+docker run -it <image_id> /bin/bash
+
+
+#docker system prune -a
+sudo emacs /etc/docker/daemon.json
+{
+    "runtimes": {
+        "nvidia": {
+            "path": "nvidia-container-runtime",
+            "runtimeArgs": []
+        }
+    },
+    "data-root": "/home/ec2-user/SageMaker/docker_data"
+}
+#sudo service docker status
+#sudo service docker restart
+#sudo docker run -i -t -v /home/ec2-user/SageMaker:/work bbf2d79705b7 /bin/bash
+#sudo docker run -i -t --gpus all -v /home/ec2-user/SageMaker:/work b6d5147bee56 /bin/bash
+
+##To run docker properly on a new EC2 instance
+*(sudo) Edit the /etc/docker/daemon.json file with the correct data root path like the example shown above
+- "data-root": "/home/ec2-user/SageMaker/docker_data"
+* Run "sudo service docker restart"
+* Run "sudo docker run -i -t --gpus all -v /home/ec2-user/SageMaker:/work b6d5147bee56 /bin/bash"
+* In the docker session cd to /work - this directory is the same as the ~/Sagemaker directory
+* Run model training/evaluation like you'd do in a normal terminal window
+* Run "exit" to exit the docker session
+
+
+#To push to ECR
+# aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 681261969843.dkr.ecr.us-east-1.amazonaws.com
+# docker tag b6d5147bee56 681261969843.dkr.ecr.us-east-1.amazonaws.com/speaker-recognition-training
+#docker push 681261969843.dkr.ecr.us-east-1.amazonaws.com/speaker-recognition-training
+- denied: User: arn:aws:sts::681261969843:assumed-role/students/SageMaker is not authorized to perform: ecr:InitiateLayerUpload on resource: arn:aws:ecr:us-east-1:681261969843:repository/speaker-recognition-training

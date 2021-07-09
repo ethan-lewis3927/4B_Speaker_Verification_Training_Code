@@ -1,0 +1,29 @@
+Python Version: 3.6.13 | packaged by conda-forge | (default, Feb 19 2021, 05:36:01) 
+[GCC 9.3.0]
+PyTorch Version: 1.8.1+cu102
+Number of GPUs: 0
+Save path: exps/test
+Embedding size is 512, encoder SAP.
+Initialised AngleProto
+Traceback (most recent call last):
+  File "./trainSpeakerNet.py", line 310, in <module>
+    main()
+  File "./trainSpeakerNet.py", line 306, in main
+    main_worker(0, None, args)
+  File "./trainSpeakerNet.py", line 143, in main_worker
+    s = WrappedModel(s).cuda(args.gpu)
+  File "/home/ec2-user/anaconda3/envs/pytorch_latest_p36/lib/python3.6/site-packages/torch/nn/modules/module.py", line 491, in cuda
+    return self._apply(lambda t: t.cuda(device))
+  File "/home/ec2-user/anaconda3/envs/pytorch_latest_p36/lib/python3.6/site-packages/torch/nn/modules/module.py", line 387, in _apply
+    module._apply(fn)
+  File "/home/ec2-user/anaconda3/envs/pytorch_latest_p36/lib/python3.6/site-packages/torch/nn/modules/module.py", line 387, in _apply
+    module._apply(fn)
+  File "/home/ec2-user/anaconda3/envs/pytorch_latest_p36/lib/python3.6/site-packages/torch/nn/modules/module.py", line 387, in _apply
+    module._apply(fn)
+  File "/home/ec2-user/anaconda3/envs/pytorch_latest_p36/lib/python3.6/site-packages/torch/nn/modules/module.py", line 409, in _apply
+    param_applied = fn(param)
+  File "/home/ec2-user/anaconda3/envs/pytorch_latest_p36/lib/python3.6/site-packages/torch/nn/modules/module.py", line 491, in <lambda>
+    return self._apply(lambda t: t.cuda(device))
+  File "/home/ec2-user/anaconda3/envs/pytorch_latest_p36/lib/python3.6/site-packages/torch/cuda/__init__.py", line 170, in _lazy_init
+    torch._C._cuda_init()
+RuntimeError: No CUDA GPUs are available
